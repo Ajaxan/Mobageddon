@@ -1,0 +1,176 @@
+# The worlds this plugin is enabled in.
+# I recommend only one world as this plugin can be very intense on performance
+Worlds: 
+  - world
+
+MaxHostileLimit: 200
+PlayerMaxHostileLimit: 40
+
+# Spawning allows increasing the number of mobs spawning 
+# It also allows replacing mob spawns to get less or more of a specific mob
+# There are two main categories: Natural and Bonus
+# Natural uses the natural mob spawning system and adds more mobs or different mobs on each spawn
+# Bonus uses a separate algorithm for spawns that allows for more spawn control 
+# Bonus also only spawns included mobs as opposed to using existing spawns like natural
+# Both systems can be used concurrently
+# Example
+# Spawning:
+#   Natural:
+#     Enabled: false
+#     Mobs:
+#       ZOMBIE: 
+#         SpawnChance: 100.0 (Natural spawn always works. 0.0 would mean zombies don't spawn at all)
+#         ExtraSpawns: 1 (Extra mobs of same type or replacement type to spawn near main spawn) 
+#         ReplaceSpawn: true (if the default spawn should be replaced with 
+#         ReplaceType: ZOMBIE (any entity type is valid here. Find them here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html)    
+#   Bonus:
+#     Enabled: false
+#     SpawnsFrequency: 20 (frequency in ticks to trigger a round of spawning) 
+#     AttemptsPerSpawn: 10 (attempted spawns per player per round)
+#     LightLevel: 7 (highest light level to spawn in)
+#     Mobs:
+#       ZOMBIE: 
+#         SpawnChance: 100.0 (Weighted chance against other bonus spawns. Doesn't need to add to 100.)
+#         ExtraSpawns: 1 (Extra mobs of same type or replacement type to spawn near main spawn)
+EnableSpawning: false
+Spawning:
+  Natural:
+    Enabled: false
+    Mobs:
+      ZOMBIE: 
+        SpawnChance: 100.0
+        ExtraSpawns: 1
+        ReplaceSpawn: true
+        ReplaceType: ZOMBIE 
+  Bonus:
+    Enabled: false
+    SpawnsFrequency: 20
+    AttemptsPerSpawn: 10
+    LightLevel: 7
+    Mobs:
+      ZOMBIE: 
+        SpawnChance: 100.0
+        ExtraSpawns: 1
+    
+    
+# This option is basically mob recycling. It removes mobs that have no target so that natural spawning can create a new one. 
+# The frequency is how often in ticks it attempts to remove targetless mobs in the active worlds
+# The chance is on a per mob basis so they don't just all disapperar and the effect is more subtle.
+# The main reason to use mob spreading is to combat cave overspawning or large dark area overspawning
+EnableSpreading: true
+Spreading:
+  SpreadingFrequency: 20
+  SpreadChance: 0.25
+  
+    
+# Mobs can have modifiers to their attributes like health, speed, knockback and more
+# Mobs can also have resistances to different types of damage.
+# All attribute values are override, not additive. 
+# Attribute options can be ommitted if you don't wish to change the value
+# List of valid Attributes can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/attribute/Attribute.html
+# Immunities allow mobs to entire negate a type of damage from being effective.
+# List of valid immunities can be found here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
+EnableModifers: false
+Modifiers:
+  ZOMBIE:
+    Attributes:
+      GENERIC_MAX_HEALTH: 20.0
+    Immunities:
+      DamageImmunities:
+        - SUFFOCATION
+
+
+# There are currently 9 powers to grant to Monsters
+# Breaker - Breaks blocks to reach the player
+# Builder - Builds bridges and stairs to create new paths towards players
+# Exploder - Explodes on death in configurable explosion and can resummon mob on death
+# Griefer - Breaks nearby light sources, glass, and sets fires 
+# Jumper - Jumps at the player if they can't get further in a different way
+# Piler - Sacrifices itself (or not) to create a flesh block to aid others in reaching the player
+# Scouter - Uses actions performed by a player to find their location
+# Shooter - Occasionally shoots special projectiles at the player
+# Smeller - Can sense all players within a given distance and attack them
+# Striker - Causes extra on hit effects like potions and other custom effects
+# Example -----------------------
+# Powers:
+#  ZOMBIE:
+#    Breaker:
+#      DamageMultiple: 1 (Corresponds to BlockHealth section below)
+#    Builder:
+#      BuildChance: 0.25 (The chance that the mob will become a builder when conditions met)
+#      BuildSpeed: 2 (seconds before next block is placed)
+#      BuildBlock: SOUL_SAND (and block Material is valid https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html)
+#    Exploder:
+#      ExplosionSize: 2 (explosion radius. 1 is the block they are standing on)
+#      ExplosionFire: true
+#      RespawnChance: 50.0
+#      RespawnType: SKELETON (any valid mob type, Mob types found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html)
+#    Griefer:
+#      GriefFrequency: 20 (Frequency in ticks to attempt Grief)
+#      BreakRange: 3 (range in blocks that the griefer can reach
+#      BreakLightSources: true
+#      BreakGlass: true
+#      SetFires: true
+#    Jumper:
+#      JumpPower: 1.0 (Jump Velocity multiplier. less than 1.0 is shorter jumps, more is longer)
+#    Piler:
+#      NearbyMobsNeeded: 2 (Number of mobs that need to be nearby to allow for piling)
+#      PileChance: 0.25 (Chance each second when conditions are met to turn into block)
+#      Sacrfice: true (false will place the block but not kill the mob)
+#      FleshBlock: SOUL_SAND (and block Material is valid https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html)
+#    Scouter:
+#      HearingMultiple: 1.0 (Corresponds to ScoutSounds below and multiplies by base amount)
+#    Shooter:
+#      Frequency: 10 (attempt to shoot special arrow every X seconds)
+#      Chance: 0.25 (chance on each attempt to succeed)
+#      ExplosiveArrow: true (shoot explosive arrow)
+#      SilverfishArrow: true (shoot silverfish. On multiple arrow types, one is randomly chosen)
+#      PotionArrows: 
+#        - CONFUSION (Applies confusion on projectile contact. Use any valid PotionEffectTypes in list)
+#    Smeller:
+#       RawMeetRange: 30
+#       CookedMeetRange: 20
+#       InherentRange: 15 (block range in which all players will be sensed)
+#    Striker:
+#       InfectionChance: 0.01 (A deadly condition that requires a specific cure. Get's worse over time till dead)
+#       CureItems:
+#         ENCHANTED_GOLDEN_APPLE: 1.0 (The Material followed by the amount out of 1.0 -full infection- to cure)
+#         GOLDEN_APPLE: 0.25
+#       PotionEffect:
+#         SLOW: 0.25 (The PotionEffectTypes followed by the chance out of 1.0 to apply on hit)
+#       
+EnablePowers: false      
+Powers:
+  ZOMBIE:
+    Breaker:
+      DamageMultiple: 1
+
+
+# Block health is used by breaker mobs to determine how fast they get through different materials
+# Set a default so you don't need to put down every block.
+# Use the whitelist and blacklist to override the default
+# Any valid block Material can be used here
+BlockHealth:
+  Default: 5
+  Whitelist:
+    STONE: 5
+    GRASS_BLOCK: 2
+    DIRT: 2
+    COARSE_DIRT: 2
+  Blacklist:
+    - OBSIDIAN
+    - CHEST
+
+# Scout Sound Range refers to how far away a Scout Power Mob with Hearing 1.0 can sense players after the action
+ScoutSounds:
+  Break: 6
+  Place: 6
+  Craft: 8
+  ItemBreak: 16
+  Consume: 10
+  Shoot: 16
+  Breed: 16
+  Damage: 10
+  
+
+  
