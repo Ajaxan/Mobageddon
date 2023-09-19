@@ -6,6 +6,9 @@ gradle.properties
 # Intellij files
 .idea/
 
+# .gradle files
+/.gradle/
+
 # Log file
 *.log
 
