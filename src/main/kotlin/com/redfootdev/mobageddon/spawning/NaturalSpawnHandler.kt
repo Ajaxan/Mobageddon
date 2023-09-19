@@ -27,17 +27,10 @@ data class NaturalSpawnOptions(
  */
 class NaturalSpawnHandler(var plugin: Mobageddon) : Listener {
     private var enableSpawning = false
-    private var enableBonusSpawning = false
     private var enableNaturalSpawning = false
     private var maxHostileLimit = 0
-    private var playerMaxHostileLimit = 0
-    private var bonusSpawnsFrequency = 0
-    private var bonusAttemptsPerSpawn = 0
-    private var bonusSpawnLightLevel = 0
-    private var trueBonusSpawns: LinkedHashMap<EntityType, BonusSpawnOptions> = LinkedHashMap()
     private var naturalBonusSpawns: HashMap<EntityType, NaturalSpawnOptions> = HashMap()
     private var spawnedMonsters: MutableList<Entity> = ArrayList()
-    var bonusSpawnsTotalWeight = 0.0
 
     init {
         loadSpawningConfigurations()

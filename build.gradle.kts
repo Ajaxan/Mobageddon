@@ -44,10 +44,15 @@ dependencies {
     library("com.google.code.gson", "gson", "2.10.1") // All platform plugins
     bukkitLibrary("com.google.code.gson", "gson", "2.10.1") // Bukkit only
     testImplementation(kotlin("test"))
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.20:3.9.0")
 }
 
 kotlin { // Extension for easy setup
     jvmToolchain(17)
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 
