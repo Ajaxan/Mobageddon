@@ -58,7 +58,6 @@ class BonusSpawnHandler(var plugin: Mobageddon) : Runnable {
         for (world in plugin.enabledWorlds) {
             if (world.getEntitiesByClass(Monster::class.java).size > maxHostileLimit) continue
             for (player in world.players) {
-                plugin.logInfo("Player in world: ${player.name}")
                 var hostileCount = 0
                 for (entityNearby in player.getNearbyEntities(48.0, 48.0, 48.0)) {
                     if (entityNearby is Monster) {
@@ -74,8 +73,6 @@ class BonusSpawnHandler(var plugin: Mobageddon) : Runnable {
                     // First we create our modifiers to determine the chunk they spawn in
                     var xModifier = RandUtil.range(-5, 5)
                     var zModifier = RandUtil.range(-5, 5)
-                    plugin.logInfo("chunk xModifier: ${xModifier}")
-                    plugin.logInfo("chunk zModifier: ${zModifier}")
 
                     // Make sure they don't spawn too close
                     if (xModifier == -1) xModifier = -2
@@ -139,7 +136,7 @@ class BonusSpawnHandler(var plugin: Mobageddon) : Runnable {
                 else -> {}
             }
             world.spawnEntity(spawnLocation, entityType)
-            plugin.logInfo("Spawned entity at: ${spawnLocation.toString()}")
+
         }
     }
 }

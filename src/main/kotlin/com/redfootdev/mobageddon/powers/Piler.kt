@@ -98,7 +98,7 @@ class Piler(var plugin: Mobageddon) : Runnable {
                                     if (buildBlock.type == Material.AIR || buildBlock.type == Material.SNOW) {
                                         buildBlock.type = buildBlockMaterial
                                         plugin.coAPI!!.logPlacement(
-                                            "bloodmoonmob",
+                                            "mobageddon",
                                             buildBlock.location,
                                             buildBlock.type,
                                             buildBlock.blockData
@@ -107,7 +107,7 @@ class Piler(var plugin: Mobageddon) : Runnable {
                                         buildBlock = buildBlock.getRelative(BlockFace.UP)
                                         buildBlock.type = buildBlockMaterial
                                         plugin.coAPI!!.logPlacement(
-                                            "bloodmoonmob",
+                                            "mobageddon",
                                             buildBlock.location,
                                             buildBlock.type,
                                             buildBlock.blockData
