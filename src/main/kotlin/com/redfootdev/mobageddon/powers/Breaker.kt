@@ -6,7 +6,6 @@ import com.redfootdev.mobageddon.blocks.HealthDefaults
 import com.redfootdev.mobageddon.utils.ConfigUtil
 import org.bukkit.Material
 import org.bukkit.block.Block
-import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Monster
@@ -30,8 +29,7 @@ class Breaker(var plugin: Mobageddon) : Runnable {
     }
 
     private fun loadSpawningConfigurations() {
-        var sections = HashMap<EntityType, ConfigurationSection>()
-        sections = ConfigUtil.getPowerSections(plugin, "Breaker")
+        val sections = ConfigUtil.getPowerSections(plugin, "Breaker")
         for (entityType in sections.keys) {
             val damageMultiple = sections[entityType]!!.getInt("DamageMultiple")
             options[entityType] = BreakerOptions(entityType, damageMultiple)
@@ -54,7 +52,7 @@ class Breaker(var plugin: Mobageddon) : Runnable {
                             if (hBlock.isBroken()) {
                                 hBlock.mobBreakBlock(monster, blockToBreak)
                                 plugin.coAPI!!.logRemoval(
-                                    "bloodmoonmob",
+                                    "mobageddon",
                                     blockToBreak.location,
                                     blockToBreak.type,
                                     blockToBreak.blockData

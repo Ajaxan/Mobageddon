@@ -76,18 +76,18 @@ class Builder(var plugin: Mobageddon) : Runnable {
                                     var buildBlock = monsterLoc.block
                                     //TODO this is a bad fix for the weird issue where block spawn height seems to be one off for the first block
                                     if (buildBlock.type == Material.AIR || buildBlock.type == Material.SNOW || buildBlock.type == Material.SAND) {
-                                        buildBlock.type = buildBlockMaterial!!
+                                        buildBlock.type = buildBlockMaterial
                                         plugin.coAPI!!.logPlacement(
-                                            "bloodmoonmob",
+                                            "mobageddon",
                                             buildBlock.location,
                                             buildBlock.type,
                                             buildBlock.blockData
                                         )
                                     } else {
                                         buildBlock = buildBlock.getRelative(BlockFace.UP)
-                                        buildBlock.type = buildBlockMaterial!!
+                                        buildBlock.type = buildBlockMaterial
                                         plugin.coAPI!!.logPlacement(
-                                            "bloodmoonmob",
+                                            "mobageddon",
                                             buildBlock.location,
                                             buildBlock.type,
                                             buildBlock.blockData

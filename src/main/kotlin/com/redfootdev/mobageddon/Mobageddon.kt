@@ -27,6 +27,8 @@ class Mobageddon : JavaPlugin() {
     var date: Long = 0
     var enabledWorlds: ArrayList<World> = ArrayList()
     private var enableSpawning = false
+    private var enableNaturalSpawning = false
+    private var enableBonusSpawning = false
     private var enableSpreading = false
     private var enableModifiers = false
     private var enablePowers = false
@@ -67,6 +69,8 @@ class Mobageddon : JavaPlugin() {
             enabledWorlds.add(world)
         }
         enableSpawning = config.getBoolean("EnableSpawning")
+        enableNaturalSpawning = config.getBoolean("Spawning.Natural.Enabled")
+        enableBonusSpawning = config.getBoolean("Spawning.Bonus.Enabled")
         enableSpreading = config.getBoolean("EnableSpreading")
         enableModifiers = config.getBoolean("EnableModifers")
         enablePowers = config.getBoolean("EnablePowers")
@@ -104,8 +108,8 @@ class Mobageddon : JavaPlugin() {
 
     private fun initializeSpawning() {
         if (enableSpawning) {
-            NaturalSpawnHandler(this)
-            BonusSpawnHandler(this)
+            if(enableNaturalSpawning) NaturalSpawnHandler(this)
+            if(enableBonusSpawning) BonusSpawnHandler(this)
         }
         if (enableSpreading) {
             //TODO Re-enable this

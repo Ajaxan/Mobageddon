@@ -27,19 +27,11 @@ data class NaturalSpawnOptions(
  */
 class NaturalSpawnHandler(var plugin: Mobageddon) : Listener {
     private var enableSpawning = false
-    private var enableBonusSpawning = false
     private var enableNaturalSpawning = false
-    private var maxHostileLimit = 0
-    private var playerMaxHostileLimit = 0
-    private var bonusSpawnsFrequency = 0
-    private var bonusAttemptsPerSpawn = 0
-    private var bonusSpawnLightLevel = 0
-    private var trueBonusSpawns: LinkedHashMap<EntityType, BonusSpawnOptions> = LinkedHashMap()
     private var naturalBonusSpawns: HashMap<EntityType, NaturalSpawnOptions> = HashMap()
-    private var spawnedMonsters: MutableList<Entity> = ArrayList()
-    var bonusSpawnsTotalWeight = 0.0
 
     init {
+        plugin.logInfo("Enhanced Natural Spawning Enabled")
         loadSpawningConfigurations()
         plugin.server.pluginManager.registerEvents(this, plugin)
     }
@@ -84,13 +76,10 @@ class NaturalSpawnHandler(var plugin: Mobageddon) : Listener {
         // If the entity isn't a monster return
         // If the mob spawned through a plugin return (prevents spawn stacking)
         if (!enableSpawning || !enableNaturalSpawning) return
-        if (event.spawnReason != CreatureSpawnEvent.SpawnReason.NATURAL || event.spawnReason != CreatureSpawnEvent.SpawnReason.SPAWNER) return
-        if (plugin.enabledWorlds.contains(eventWorld)) return
+        if (event.spawnReason != CreatureSpawnEvent.SpawnReason.NATURAL) return
+        if (!plugin.enabledWorlds.contains(eventWorld)) return
         if (entity !is Monster) return
-        if (spawnedMonsters.contains(entity)) {
-            spawnedMonsters.remove(entity)
-            return
-        }
+
         val spawnOptions = naturalBonusSpawns[entityType] ?: return
 
         // If we fail to spawn, cancel all spawns and return
@@ -98,12 +87,11 @@ class NaturalSpawnHandler(var plugin: Mobageddon) : Listener {
             event.isCancelled = true
             return
         }
-
         // If we are replacing the entity type for this spawning, set the new entity type
         var spawnEntityType: EntityType = entityType
         if (spawnOptions.shouldReplaceSpawn) {
             spawnEntityType = spawnOptions.replacementEntityType
-            spawnedMonsters.add(eventWorld.spawnEntity(event.location, spawnEntityType, ))
+            eventWorld.spawnEntity(event.location, spawnEntityType, CreatureSpawnEvent.SpawnReason.CUSTOM)
             event.isCancelled = true
         }
 
@@ -126,7 +114,7 @@ class NaturalSpawnHandler(var plugin: Mobageddon) : Listener {
                 )
                 else -> {}
             }
-            spawnedMonsters.add(world.spawnEntity(spawnLocation, entityType))
+            world.spawnEntity(spawnLocation, entityType)
         }
     }
 
